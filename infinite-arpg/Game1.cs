@@ -13,9 +13,9 @@ namespace infinitearpg
 	/// </summary>
 	public class Game1 : Game
 	{
-		GraphicsDeviceManager graphics;
+		readonly GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
-		private Texture2D player;
+        private AbstractScene currentScene;
 
 		public Game1 ()
 		{
@@ -43,9 +43,8 @@ namespace infinitearpg
 		protected override void LoadContent()
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
-			spriteBatch = new SpriteBatch (GraphicsDevice);
-            this.player = this.LoadImage("Content/player.png");
-			//TODO: use this.Content to load your game content here 
+			spriteBatch = new SpriteBatch(this.GraphicsDevice);
+            currentScene = new CoreGameScene(this.GraphicsDevice);
 		}
 
 		/// <summary>
@@ -73,23 +72,15 @@ namespace infinitearpg
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw (GameTime gameTime)
 		{
-			graphics.GraphicsDevice.Clear (Color.CornflowerBlue);
+            graphics.GraphicsDevice.Clear (Color.Black);
             
 			//TODO: Add your drawing code here
 			spriteBatch.Begin();
-			spriteBatch.Draw(player, new Vector2(300, 100));
+            this.currentScene.Draw(spriteBatch);
 			spriteBatch.End();
             
 			base.Draw (gameTime);
 		}
-
-        private Texture2D LoadImage(string fileName)
-        {
-            using (var stream = File.Open(fileName, FileMode.Open))
-            {
-                return Texture2D.FromStream(this.GraphicsDevice, stream);
-            }
-        }
 	}
 }
 
