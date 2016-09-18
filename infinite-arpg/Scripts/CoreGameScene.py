@@ -8,4 +8,4 @@ class CoreGameScene(AbstractScene):
         self.player = self.LoadImage("Content/player.png")
 
     def Draw(self, spriteBatch):
-        spriteBatch.Draw(self.player, Vector2.Zero)
+        spriteBatch.Draw(self.player, Vector2(100, 50))

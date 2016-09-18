@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
+using System.Linq;
 
 using IronPython.Hosting;
 using Microsoft.Scripting;
@@ -24,6 +25,7 @@ namespace DeenGames.InfiniteArpg
 
         private AbstractScene currentScene;
         private readonly ScriptEngine pythonEngine = Python.CreateEngine();
+        private const string MainSceneFile = "Scripts/CoreGameScene.py";
 
 		public Game1 ()
 		{
@@ -39,23 +41,8 @@ namespace DeenGames.InfiniteArpg
 		/// </summary>
 		protected override void Initialize()
 		{
-			base.Initialize ();
-
-            /// Create our scene through IronPython code
-
-            var scope = this.pythonEngine.CreateScope();
-
-            // Expose the assembly containing AbstractScene to the IronPython runtime
-            this.pythonEngine.Runtime.LoadAssembly(typeof(AbstractScene).Assembly);
-            this.pythonEngine.Runtime.LoadAssembly(typeof(Vector2).Assembly);
-
-            // Execute the Python code to define our scene type
-            var source = this.pythonEngine.CreateScriptSourceFromFile("Scripts/CoreGameScene.py");
-            source.Execute(scope);
-
-            // Get the Python class type/definition
-            var sceneType = scope.GetVariable("CoreGameScene");
-            this.currentScene = pythonEngine.Operations.CreateInstance(sceneType, this.GraphicsDevice);
+			base.Initialize();
+            this.LoadMainScenePythonFile();
 		}
 
 		/// <summary>
@@ -81,8 +68,12 @@ namespace DeenGames.InfiniteArpg
 			if (GamePad.GetState (PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState ().IsKeyDown (Keys.Escape))
 				Exit ();
 			#endif
-            
-			// TODO: Add your update logic here
+
+            // Reset scene if the user presses "~"
+            if (Keyboard.GetState(PlayerIndex.One).GetPressedKeys().Any(k => k == Keys.OemTilde))
+            {
+                this.LoadMainScenePythonFile();
+            }
             
 			base.Update (gameTime);
 		}
@@ -104,6 +95,26 @@ namespace DeenGames.InfiniteArpg
             
 			base.Draw (gameTime);
 		}
+
+        private void LoadMainScenePythonFile()
+        {
+            // The definition of our scene class lives in IronPython code.
+            // Execute the script that defines it. Then, create an instance of it.
+
+            var scope = this.pythonEngine.CreateScope();
+
+            // Expose the assembly containing AbstractScene to the IronPython runtime
+            this.pythonEngine.Runtime.LoadAssembly(typeof(AbstractScene).Assembly);
+            this.pythonEngine.Runtime.LoadAssembly(typeof(Vector2).Assembly);
+
+            // Execute the Python code to define our scene type
+            var source = this.pythonEngine.CreateScriptSourceFromFile(MainSceneFile);
+            source.Execute(scope);
+
+            // Get the Python class type/definition
+            var sceneType = scope.GetVariable("CoreGameScene");
+            this.currentScene = pythonEngine.Operations.CreateInstance(sceneType, this.GraphicsDevice);
+        }
 	}
 }
 
