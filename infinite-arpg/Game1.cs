@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
-using System.Linq;
 
 using IronPython.Hosting;
 using Microsoft.Scripting;
@@ -25,12 +24,21 @@ namespace DeenGames.InfiniteArpg
 
         private AbstractScene currentScene;
         private readonly ScriptEngine pythonEngine = Python.CreateEngine();
-        private const string MainSceneFile = "Scripts/CoreGameScene.py";
-
+        private const string MainSceneFile = "Content/Scripts/CoreGameScene.py";
+        private readonly FileWatcher fileWatcher = new FileWatcher();
+           
 		public Game1 ()
 		{
 			graphics = new GraphicsDeviceManager (this);
 			Content.RootDirectory = "Content";
+
+            // Watch the script file. If it's updated, copy to bin and reload.
+            // Not the file in bin. The file in the source directory.
+            var sourceFile = string.Format("../../{0}", MainSceneFile);
+            fileWatcher.Watch(sourceFile, () => {
+                File.Copy(sourceFile, MainSceneFile, true);
+                ReloadMainScene();
+            });
 		}
 
 		/// <summary>
@@ -42,7 +50,7 @@ namespace DeenGames.InfiniteArpg
 		protected override void Initialize()
 		{
 			base.Initialize();
-            this.LoadMainScenePythonFile();
+            this.ReloadMainScene();
 		}
 
 		/// <summary>
@@ -68,13 +76,7 @@ namespace DeenGames.InfiniteArpg
 			if (GamePad.GetState (PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState ().IsKeyDown (Keys.Escape))
 				Exit ();
 			#endif
-
-            // Reset scene if the user presses "~"
-            if (Keyboard.GetState(PlayerIndex.One).GetPressedKeys().Any(k => k == Keys.OemTilde))
-            {
-                this.LoadMainScenePythonFile();
-            }
-            
+                        
 			base.Update (gameTime);
 		}
 
@@ -96,7 +98,7 @@ namespace DeenGames.InfiniteArpg
 			base.Draw (gameTime);
 		}
 
-        private void LoadMainScenePythonFile()
+        private void ReloadMainScene()
         {
             // The definition of our scene class lives in IronPython code.
             // Execute the script that defines it. Then, create an instance of it.
