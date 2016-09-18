@@ -29,16 +29,19 @@ namespace DeenGames.InfiniteArpg
            
 		public Game1 ()
 		{
-			graphics = new GraphicsDeviceManager (this);
+			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
             // Watch the script file. If it's updated, copy to bin and reload.
             // Not the file in bin. The file in the source directory.
             var sourceFile = string.Format("../../{0}", MainSceneFile);
-            fileWatcher.Watch(sourceFile, () => {
+            fileWatcher.Watch(sourceFile, () =>
+            {
                 File.Copy(sourceFile, MainSceneFile, true);
                 ReloadMainScene();
             });
+
+            this.Exiting += (sender, e) => fileWatcher.Stop = true;
 		}
 
 		/// <summary>

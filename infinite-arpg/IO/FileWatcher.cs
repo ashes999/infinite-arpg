@@ -6,6 +6,7 @@ namespace DeenGames.InfiniteArpg
 {
     public class FileWatcher
     {
+        public bool Stop { get; set; }
         private DateTime lastUpdated;
 
         // TODO: thread pooling or something.
@@ -13,10 +14,12 @@ namespace DeenGames.InfiniteArpg
         public void Watch(string file, Action onUpdateCallback)
         {
             this.lastUpdated = File.GetLastWriteTime(file);
+            this.Stop = false;
 
             new Thread(new ThreadStart(() =>
             {
-                while (true) {
+                while (this.Stop == false)
+                {
                     var currentWriteTime = File.GetLastWriteTime(file);
 
                     if (lastUpdated != currentWriteTime)
