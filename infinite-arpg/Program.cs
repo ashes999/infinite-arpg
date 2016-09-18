@@ -13,7 +13,7 @@ using UIKit;
 #endif
 #endregion
 
-namespace infinitearpg
+namespace DeenGames.InfiniteArpg
 {
 	#if __IOS__ || __TVOS__
     [Register("AppDelegate")]

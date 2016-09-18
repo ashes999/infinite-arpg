@@ -2,13 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 
-namespace infinitearpg
+namespace DeenGames.InfiniteArpg.Scenes
 {
     public abstract class AbstractScene
     {
         private GraphicsDevice graphicsDevice;
 
-        internal AbstractScene(GraphicsDevice graphicsDevice)
+        public AbstractScene(GraphicsDevice graphicsDevice)
         {
             this.graphicsDevice = graphicsDevice;
         }

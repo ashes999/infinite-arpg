@@ -6,7 +6,13 @@ using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
 
-namespace infinitearpg
+using IronPython.Hosting;
+using Microsoft.Scripting;
+using Microsoft.Scripting.Hosting;
+using DeenGames.InfiniteArpg.Scenes;
+using System.Reflection;
+
+namespace DeenGames.InfiniteArpg
 {
 	/// <summary>
 	/// This is the main type for your game.
@@ -15,7 +21,9 @@ namespace infinitearpg
 	{
 		readonly GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
+
         private AbstractScene currentScene;
+        private readonly ScriptEngine pythonEngine = Python.CreateEngine();
 
 		public Game1 ()
 		{
@@ -31,9 +39,23 @@ namespace infinitearpg
 		/// </summary>
 		protected override void Initialize()
 		{
-			// TODO: Add your initialization logic here
-            
 			base.Initialize ();
+
+            /// Create our scene through IronPython code
+
+            var scope = this.pythonEngine.CreateScope();
+
+            // Expose the assembly containing AbstractScene to the IronPython runtime
+            this.pythonEngine.Runtime.LoadAssembly(typeof(AbstractScene).Assembly);
+            this.pythonEngine.Runtime.LoadAssembly(typeof(Vector2).Assembly);
+
+            // Execute the Python code to define our scene type
+            var source = this.pythonEngine.CreateScriptSourceFromFile("Scripts/CoreGameScene.py");
+            source.Execute(scope);
+
+            // Get the Python class type/definition
+            var sceneType = scope.GetVariable("CoreGameScene");
+            this.currentScene = pythonEngine.Operations.CreateInstance(sceneType, this.GraphicsDevice);
 		}
 
 		/// <summary>
@@ -44,7 +66,6 @@ namespace infinitearpg
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(this.GraphicsDevice);
-            currentScene = new CoreGameScene(this.GraphicsDevice);
 		}
 
 		/// <summary>
@@ -74,10 +95,12 @@ namespace infinitearpg
 		{
             graphics.GraphicsDevice.Clear (Color.Black);
             
-			//TODO: Add your drawing code here
-			spriteBatch.Begin();
-            this.currentScene.Draw(spriteBatch);
-			spriteBatch.End();
+            if (this.currentScene != null)
+            {
+                spriteBatch.Begin();
+                this.currentScene.Draw(spriteBatch);
+                spriteBatch.End();
+            }
             
 			base.Draw (gameTime);
 		}
