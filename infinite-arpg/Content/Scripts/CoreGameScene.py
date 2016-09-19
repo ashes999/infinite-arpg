@@ -4,20 +4,24 @@ from Microsoft.Xna.Framework.Graphics import SurfaceFormat, Texture2D
 from DeenGames.InfiniteArpg.Scenes import AbstractScene
 
 class Drawable():
-    def __init__(self, texture2D):
-        self.texture2D = texture2D
-        self.fillColour = None
+    def __init__(self):
+        self.isColour = None
 
-    def colour(self, width, height):
-        self.fillColour = True
+    def image(self, imageTexture):
+        self.isColour = False
+        self.texture2D = imageTexture
+        return self
+
+    def colour(self, colourTexture, width, height):
+        self.isColour = True
+        self.texture2D = colourTexture
         self.width = width
         self.height = height
         return self
 
     def draw(self, spriteBatch):
-        if (self.fillColour != None):
+        if (self.isColour == True):
             spriteBatch.Draw(self.texture2D, None, Rectangle(0, 0, self.width, self.height))
-            #print("Hi there: f={0}, w={1}, h={2}".format(self.fillColour, self.width, self.height))
         else:
             spriteBatch.Draw(self.texture2D, Vector2.Zero)
 
@@ -26,10 +30,10 @@ class CoreGameScene(AbstractScene):
     def __init__(self, graphicsDevice):
         super(CoreGameScene, self).__init__()
 
-        self.player = Drawable(self.LoadImage("Content/player.png"))
-        #self.test = Drawable(self.Colour(Color.Red)).colour(100, 50)
+        self.player = Drawable().image(self.LoadImage("Content/player.png"))
+        self.test = Drawable().colour(self.Colour(Color.Red), 100, 50)
 
     def Draw(self, spriteBatch):
         self.player.draw(spriteBatch)
-        #self.test.draw(spriteBatch)
+        self.test.draw(spriteBatch)
 
