@@ -29,11 +29,8 @@ class Drawable():
 class CoreGameScene(AbstractScene):
     def __init__(self, graphicsDevice):
         super(CoreGameScene, self).__init__()
-
-        self.player = Drawable().image(self.LoadImage("Content/player.png"))
-        self.test = Drawable().colour(self.Colour(Color.Red), 100, 50)
+        self.player = Drawable().colour(self.Colour(Color.Red), 32, 32)
 
     def Draw(self, spriteBatch):
         self.player.draw(spriteBatch)
-        self.test.draw(spriteBatch)
 

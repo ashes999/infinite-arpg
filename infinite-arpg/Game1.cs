@@ -42,6 +42,10 @@ namespace DeenGames.InfiniteArpg
             });
 
             this.Exiting += (sender, e) => fileWatcher.Stop = true;
+
+            // 1024x768
+            this.graphics.PreferredBackBufferWidth = 1024;
+            this.graphics.PreferredBackBufferHeight = 768;
 		}
 
 		/// <summary>
