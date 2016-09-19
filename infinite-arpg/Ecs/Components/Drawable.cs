@@ -6,10 +6,20 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
 {
     public class Drawable
     {
+        public int X { get; set; }
+        public int Y { get;set; }
+
         private bool isColour = false;
         private Texture2D texture2D;
         private int width = 0;
         private int height = 0;
+        private Vector2 position = Vector2.Zero;
+
+        public Drawable()
+        {
+            this.X = 0;
+            this.Y = 0;
+        }
 
         public Drawable Image(Texture2D imageTexture)
         {
@@ -28,18 +38,27 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
             return this;
         }
 
+        public Drawable Move(int x, int y)
+        {
+            this.X = x;
+            this.Y = y;
+            return this;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             if (this.isColour == true)
             {
-                spriteBatch.Draw(this.texture2D, null, new Rectangle(0, 0, this.width, this.height));
+                spriteBatch.Draw(this.texture2D, null, new Rectangle(this.X, this.Y, this.width, this.height));
             }
             else
             {
-                spriteBatch.Draw(this.texture2D, Vector2.Zero);
+                // TODO: cache or something the vector
+                spriteBatch.Draw(this.texture2D, new Vector2(this.X, this.Y));
 
             }
         }
+
     }
 }
 
