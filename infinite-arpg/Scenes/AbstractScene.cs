@@ -7,6 +7,7 @@ namespace DeenGames.InfiniteArpg.Scenes
 {
     public abstract class AbstractScene
     {
+        public Color ClearColour { get; protected set; }
         protected GraphicsDevice graphicsDevice;
 
         public AbstractScene(GraphicsDevice graphicsDevice)

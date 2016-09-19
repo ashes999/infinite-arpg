@@ -29,6 +29,7 @@ class Drawable():
 class CoreGameScene(AbstractScene):
     def __init__(self, graphicsDevice):
         super(CoreGameScene, self).__init__()
+        self.ClearColour = Color.DarkGreen
         self.player = Drawable().colour(self.Colour(Color.Red), 32, 32)
 
     def Draw(self, spriteBatch):

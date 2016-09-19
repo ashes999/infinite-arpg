@@ -93,10 +93,9 @@ namespace DeenGames.InfiniteArpg
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw (GameTime gameTime)
 		{
-            graphics.GraphicsDevice.Clear (Color.Black);
-            
             if (this.currentScene != null)
             {
+                graphics.GraphicsDevice.Clear(this.currentScene.ClearColour);
                 spriteBatch.Begin();
                 this.currentScene.Draw(spriteBatch);
                 spriteBatch.End();
