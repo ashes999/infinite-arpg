@@ -76,6 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenes\AbstractScene.cs" />
     <Compile Include="IO\FileWatcher.cs" />
+    <Compile Include="Ecs\Components\Drawable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
@@ -101,5 +102,7 @@
     <Folder Include="Scenes\" />
     <Folder Include="IO\" />
     <Folder Include="Content\Scripts\" />
+    <Folder Include="Ecs\" />
+    <Folder Include="Ecs\Components\" />
   </ItemGroup>
 </Project>
