@@ -97,7 +97,7 @@ namespace DeenGames.InfiniteArpg
                 this.currentScene.Draw(spriteBatch);
                 spriteBatch.End();
             }
-            
+
 			base.Draw (gameTime);
 		}
 
@@ -114,7 +114,14 @@ namespace DeenGames.InfiniteArpg
 
             // Execute the Python code to define our scene type
             var source = this.pythonEngine.CreateScriptSourceFromFile(MainSceneFile);
-            source.Execute(scope);
+            try
+            {
+                source.Execute(scope);
+            }
+            catch (SyntaxErrorException s)
+            {
+                throw new SyntaxErrorException(string.Format("{0} on line {1}", s.Message, s.Line), s);
+            }
 
             // Get the Python class type/definition
             var sceneType = scope.GetVariable("CoreGameScene");

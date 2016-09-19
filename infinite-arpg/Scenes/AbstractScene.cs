@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using Microsoft.Xna.Framework;
 
 namespace DeenGames.InfiniteArpg.Scenes
 {
     public abstract class AbstractScene
     {
-        private GraphicsDevice graphicsDevice;
+        protected GraphicsDevice graphicsDevice;
 
         public AbstractScene(GraphicsDevice graphicsDevice)
         {
@@ -21,6 +22,13 @@ namespace DeenGames.InfiniteArpg.Scenes
             {
                 return Texture2D.FromStream(this.graphicsDevice, stream);
             }
+        }
+
+        protected Texture2D Colour(Color fillColour)
+        {
+            var toReturn = new Texture2D(this.graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            toReturn.SetData<Color>(new Color[] { fillColour });
+            return toReturn;
         }
     }
 }
