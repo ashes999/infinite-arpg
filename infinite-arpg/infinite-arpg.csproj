@@ -82,6 +82,7 @@
     <Compile Include="Ecs\Components\Drawable.cs" />
     <Compile Include="Ecs\Entity.cs" />
     <Compile Include="Ecs\Components\Component.cs" />
+    <Compile Include="Ecs\Components\MoveToArrowKeys.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />

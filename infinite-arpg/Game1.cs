@@ -94,6 +94,8 @@ namespace DeenGames.InfiniteArpg
 			#endif
                         
 			base.Update (gameTime);
+
+            this.currentScene.Update(gameTime);
 		}
 
 		/// <summary>
@@ -104,10 +106,7 @@ namespace DeenGames.InfiniteArpg
 		{
             if (this.currentScene != null)
             {
-                graphics.GraphicsDevice.Clear(this.currentScene.ClearColour);
-                spriteBatch.Begin();
                 this.currentScene.Draw(spriteBatch);
-                spriteBatch.End();
             }
 
 			base.Draw (gameTime);
