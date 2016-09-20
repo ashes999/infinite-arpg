@@ -13,7 +13,7 @@ namespace DeenGames.InfiniteArpg.Ecs
         // Map of type => component instance, eg. typeof(Drawable) => Drawable instance
         public IDictionary<Type, dynamic> components = new Dictionary<Type, dynamic>();
 
-        #region fluent API for adding entities
+        #region fluent API for adding components
 
         public Entity Image(string fileName)
         {
@@ -21,19 +21,22 @@ namespace DeenGames.InfiniteArpg.Ecs
             return this;
         }
 
-        public Entity Colour(Color colour, uint width, uint height)
+        public Entity Colour(Color colour, int width, int height)
         {
             this.components[typeof(Drawable)] = Game1.Kernel.Get<Drawable>().Colour(colour, width, height);
             return this;
         }
             
-
-        public void Draw(SpriteBatch spriteBatch)
+        public Entity Move(int x, int y)
         {
-            if (this.Has<Drawable>())
+            var drawable = this.Get<Drawable>();
+            if (drawable != null)
             {
-                this.Get<Drawable>().Draw(spriteBatch);
+                drawable.X = x;
+                drawable.Y = y;
             }
+
+            return this;
         }
 
         #endregion
@@ -48,7 +51,21 @@ namespace DeenGames.InfiniteArpg.Ecs
 
         public bool Has<T>()
         {
-            return this.Get<T>() != null;
+            return this.components[typeof(T)] != null;
+        }
+
+        #endregion
+
+        #region TODO: refactor
+
+        // The exact same code, in Python, either returns a Tuple or True.
+        // Instead of a Drawable instance. Pfft.
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (this.Has<Drawable>())
+            {
+                this.Get<Drawable>().Draw(spriteBatch);
+            }
         }
 
         #endregion

@@ -18,7 +18,6 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
         private Texture2D texture2D;
         private int width = 0;
         private int height = 0;
-        private Vector2 position = Vector2.Zero;
 
         public Drawable()
         {
@@ -39,10 +38,12 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
         }
 
 
-        public Drawable Colour(Texture2D colourTexture, int width, int height)
+        public Drawable Colour(Color colour, int width, int height)
         {
             this.isColour = true;
-            this.texture2D = colourTexture;
+
+            this.texture2D = new Texture2D(this.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            this.texture2D.SetData<Color>(new Color[] { colour });
             this.width = width;
             this.height = height;
             return this;
@@ -63,12 +64,10 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
             }
             else
             {
-                // TODO: cache or something the vector
+                // TODO: cache (or something) the vector
                 spriteBatch.Draw(this.texture2D, new Vector2(this.X, this.Y));
-
             }
         }
-
     }
 }
 
