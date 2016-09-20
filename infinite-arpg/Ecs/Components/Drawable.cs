@@ -1,11 +1,16 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.IO;
+using Ninject;
 
 namespace DeenGames.InfiniteArpg.Ecs.Components
 {
-    public class Drawable
+    public class Drawable : Component
     {
+        [Inject]
+        public GraphicsDevice GraphicsDevice { private get; set; }
+
         public int X { get; set; }
         public int Y { get;set; }
 
@@ -21,10 +26,15 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
             this.Y = 0;
         }
 
-        public Drawable Image(Texture2D imageTexture)
+        public Drawable Image(string fileName)
         {
             this.isColour = false;
-            this.texture2D = imageTexture;
+
+            using (var stream = File.Open(fileName, FileMode.Open))
+            {
+                this.texture2D = Texture2D.FromStream(this.GraphicsDevice, stream);
+            }
+
             return this;
         }
 

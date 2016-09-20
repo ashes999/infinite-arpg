@@ -11,6 +11,7 @@ using Microsoft.Scripting;
 using Microsoft.Scripting.Hosting;
 using DeenGames.InfiniteArpg.Scenes;
 using System.Reflection;
+using Ninject;
 
 namespace DeenGames.InfiniteArpg
 {
@@ -26,9 +27,12 @@ namespace DeenGames.InfiniteArpg
         private readonly ScriptEngine pythonEngine = Python.CreateEngine();
         private const string MainSceneFile = "Content/Scripts/CoreGameScene.py";
         private readonly FileWatcher fileWatcher = new FileWatcher();
+        public static StandardKernel Kernel { get; private set; }
            
 		public Game1 ()
 		{
+            Kernel = new StandardKernel();
+
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
@@ -57,6 +61,11 @@ namespace DeenGames.InfiniteArpg
 		protected override void Initialize()
 		{
 			base.Initialize();
+
+            // Wire up XNA dependencies so we can get them easily. Bind to instances, because
+            // constructing these things is really complex.
+            Kernel.Bind<GraphicsDevice>().ToConstant(this.GraphicsDevice);
+
             this.ReloadMainScene();
 		}
 

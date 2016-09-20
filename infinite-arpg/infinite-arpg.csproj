@@ -69,6 +69,9 @@
       <HintPath>..\packages\IronPython.2.7.5\lib\Net45\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
@@ -77,6 +80,8 @@
     <Compile Include="Scenes\AbstractScene.cs" />
     <Compile Include="IO\FileWatcher.cs" />
     <Compile Include="Ecs\Components\Drawable.cs" />
+    <Compile Include="Ecs\Entity.cs" />
+    <Compile Include="Ecs\Components\Component.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
@@ -93,6 +98,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Scripts\CoreGameScene.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\trigger_bar_trigger.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
