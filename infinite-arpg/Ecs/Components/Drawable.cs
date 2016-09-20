@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Ninject;
+using DeenGames.InfiniteArpg.Scenes;
 
 namespace DeenGames.InfiniteArpg.Ecs.Components
 {
@@ -14,7 +15,7 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
         public int X { get; set; }
         public int Y { get;set; }
 
-        private bool isColour = false;
+        private Color? colour = null;
         private Texture2D texture2D;
         private int width = 0;
         private int height = 0;
@@ -27,8 +28,6 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
 
         public Drawable Image(string fileName)
         {
-            this.isColour = false;
-
             using (var stream = File.Open(fileName, FileMode.Open))
             {
                 this.texture2D = Texture2D.FromStream(this.GraphicsDevice, stream);
@@ -40,10 +39,8 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
 
         public Drawable Colour(Color colour, int width, int height)
         {
-            this.isColour = true;
-
-            this.texture2D = new Texture2D(this.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            this.texture2D.SetData<Color>(new Color[] { colour });
+            this.colour = colour;
+            this.texture2D = AbstractScene.WhiteTexture;
             this.width = width;
             this.height = height;
             return this;
@@ -58,9 +55,10 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (this.isColour == true)
+            if (this.colour.HasValue)
             {
-                spriteBatch.Draw(this.texture2D, null, new Rectangle(this.X, this.Y, this.width, this.height));
+                spriteBatch.Draw(this.texture2D, null, new Rectangle(this.X, this.Y, this.width, this.height),
+                    null, null, 0, Vector2.One, this.colour);
             }
             else
             {

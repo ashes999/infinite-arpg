@@ -11,12 +11,17 @@ namespace DeenGames.InfiniteArpg.Scenes
     public abstract class AbstractScene
     {
         public Color ClearColour { get; protected set; }
+
+        internal static Texture2D WhiteTexture;
         protected GraphicsDevice graphicsDevice;
+
         private IList<Entity> entities = new List<Entity>();
 
         public AbstractScene(GraphicsDevice graphicsDevice)
         {
             this.graphicsDevice = graphicsDevice;
+            WhiteTexture = new Texture2D(this.graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            WhiteTexture.SetData<Color>(new Color[] { Color.White });
         }
 
         public void Add(Entity e)
@@ -43,6 +48,10 @@ namespace DeenGames.InfiniteArpg.Scenes
 
         public void Update(GameTime gameTime)
         {
+            foreach (var entity in this.entities)
+            {
+                entity.Update(gameTime);
+            }
         }
 
         protected Texture2D LoadImage(string fileName)
@@ -51,13 +60,6 @@ namespace DeenGames.InfiniteArpg.Scenes
             {
                 return Texture2D.FromStream(this.graphicsDevice, stream);
             }
-        }
-
-        protected Texture2D Colour(Color fillColour)
-        {
-            var toReturn = new Texture2D(this.graphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            toReturn.SetData<Color>(new Color[] { fillColour });
-            return toReturn;
         }
     }
 }
