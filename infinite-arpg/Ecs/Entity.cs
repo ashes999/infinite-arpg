@@ -39,6 +39,12 @@ namespace DeenGames.InfiniteArpg.Ecs
             return this;
         }
 
+        public Entity MoveToArrowKeys(int velocityPerSecond)
+        {
+            this.components[typeof(MoveToArrowKeys)] = new MoveToArrowKeys(this, velocityPerSecond);
+            return this;
+        }
+
         #endregion
 
         #region raw Get/Has/etc. methods
@@ -52,6 +58,14 @@ namespace DeenGames.InfiniteArpg.Ecs
         public bool Has<T>()
         {
             return this.components[typeof(T)] != null;
+        }
+
+        internal void Update(GameTime gameTime)
+        {
+            foreach (var kvp in this.components)
+            {
+                kvp.Value.Update(gameTime);
+            }
         }
 
         #endregion

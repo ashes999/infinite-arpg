@@ -12,15 +12,15 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
         [Inject]
         public GraphicsDevice GraphicsDevice { private get; set; }
 
-        public int X { get; set; }
-        public int Y { get;set; }
+        public double X { get; set; }
+        public double Y { get;set; }
 
         private Color? colour = null;
         private Texture2D texture2D;
         private int width = 0;
         private int height = 0;
 
-        public Drawable()
+        public Drawable(Entity parent) : base(parent)
         {
             this.X = 0;
             this.Y = 0;
@@ -57,13 +57,13 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
         {
             if (this.colour.HasValue)
             {
-                spriteBatch.Draw(this.texture2D, null, new Rectangle(this.X, this.Y, this.width, this.height),
+                spriteBatch.Draw(this.texture2D, null, new Rectangle((int)this.X, (int)this.Y, this.width, this.height),
                     null, null, 0, Vector2.One, this.colour);
             }
             else
             {
                 // TODO: cache (or something) the vector
-                spriteBatch.Draw(this.texture2D, new Vector2(this.X, this.Y));
+                spriteBatch.Draw(this.texture2D, new Vector2((int)this.X, (int)this.Y));
             }
         }
     }

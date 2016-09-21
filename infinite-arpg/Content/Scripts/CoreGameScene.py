@@ -9,4 +9,4 @@ class CoreGameScene(AbstractScene):
         super(CoreGameScene, self).__init__()
         self.ClearColour = Color.DarkGreen
         #self.player = self.Add(Entity().Image('Content/trigger_bar_trigger.png'))
-        self.player = self.Add(Entity().Colour(Color.Red, 32, 32).Move(300, 200))
+        self.player = self.Add(Entity().Colour(Color.Red, 32, 32).Move(300, 200).MoveToArrowKeys(100))
