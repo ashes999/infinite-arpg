@@ -47,9 +47,9 @@ namespace DeenGames.InfiniteArpg
 
             this.Exiting += (sender, e) => fileWatcher.Stop = true;
 
-            // 1024x768
+            // 1024x576
             this.graphics.PreferredBackBufferWidth = 1024;
-            this.graphics.PreferredBackBufferHeight = 768;
+            this.graphics.PreferredBackBufferHeight = 576;
 		}
 
 		/// <summary>
