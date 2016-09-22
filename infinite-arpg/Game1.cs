@@ -20,8 +20,11 @@ namespace DeenGames.InfiniteArpg
 	/// </summary>
 	public class Game1 : Game
 	{
-		readonly GraphicsDeviceManager graphics;
-		SpriteBatch spriteBatch;
+        public static readonly int ScreenWidth = 1024;
+        public static readonly int ScreenHeight = 576;
+
+		private readonly GraphicsDeviceManager graphics;
+		private SpriteBatch spriteBatch;
 
         private AbstractScene currentScene;
         private readonly ScriptEngine pythonEngine = Python.CreateEngine();
@@ -48,8 +51,8 @@ namespace DeenGames.InfiniteArpg
             this.Exiting += (sender, e) => fileWatcher.Stop = true;
 
             // 1024x576
-            this.graphics.PreferredBackBufferWidth = 1024;
-            this.graphics.PreferredBackBufferHeight = 576;
+            this.graphics.PreferredBackBufferWidth = ScreenWidth;
+            this.graphics.PreferredBackBufferHeight = ScreenHeight;
 		}
 
 		/// <summary>

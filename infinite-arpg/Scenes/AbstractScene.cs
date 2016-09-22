@@ -61,6 +61,9 @@ namespace DeenGames.InfiniteArpg.Scenes
                 return Texture2D.FromStream(this.graphicsDevice, stream);
             }
         }
+
+        protected int Width { get { return Game1.ScreenWidth; } }
+        protected int Height { get { return Game1.ScreenHeight; } }
     }
 }
 
