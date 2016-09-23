@@ -11,7 +11,8 @@ class CoreGameScene(AbstractScene):
     def __init__(self, graphicsDevice):
         super(CoreGameScene, self).__init__()
         self.ClearColour = Color.DarkGreen
-        self.player = self.Add(Entity("player").Colour(Color.Red, 32, 32).Move(300, 200).MoveToArrowKeys(200))
+        self.player = self.Add(Entity("player").Colour(Color.Red, 32, 32).Move(300, 200))
+        self.player.MoveToArrowKeys(200)
         self.makeWalls()
 
     def makeWalls(self):
