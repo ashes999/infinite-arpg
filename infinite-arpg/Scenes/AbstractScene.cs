@@ -24,9 +24,10 @@ namespace DeenGames.InfiniteArpg.Scenes
             WhiteTexture.SetData<Color>(new Color[] { Color.White });
         }
 
-        public void Add(Entity e)
+        public Entity Add(Entity e)
         {
             this.entities.Add(e);
+            return e;
         }
 
         public void Draw(SpriteBatch spriteBatch)

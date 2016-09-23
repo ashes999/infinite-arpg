@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using DeenGames.InfiniteArpg.Ecs.Components;
-using Ninject;
+using System.Linq;
 
+using DeenGames.InfiniteArpg.Ecs.Components;
+
+using Ninject;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,6 +14,15 @@ namespace DeenGames.InfiniteArpg.Ecs
     {
         // Map of type => component instance, eg. typeof(Drawable) => Drawable instance
         public IDictionary<Type, dynamic> components = new Dictionary<Type, dynamic>();
+        private string[] tags = new string[0];
+
+        public Entity(string tags = "")
+        {
+            if (!string.IsNullOrEmpty(tags))
+            {
+                this.tags = tags.Split(',').Select(s => s.ToUpperInvariant()).ToArray();
+            }
+        }
 
         #region fluent API for adding components
 
@@ -58,6 +69,11 @@ namespace DeenGames.InfiniteArpg.Ecs
         public bool Has<T>()
         {
             return this.components[typeof(T)] != null;
+        }
+
+        public bool Tagged(string tag)
+        {
+            return this.tags.Any(t => t == tag.ToUpperInvariant());
         }
 
         internal void Update(GameTime gameTime)
