@@ -97,7 +97,7 @@ namespace DeenGames.InfiniteArpg
 			#endif
                         
 			base.Update (gameTime);
-
+            // TODO: pass in small increments of gameTime and accumulate
             this.currentScene.Update(gameTime);
 		}
 

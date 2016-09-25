@@ -10,29 +10,39 @@ namespace DeenGames.InfiniteArpg.Scenes
 {
     public abstract class AbstractScene
     {
-        public Color ClearColour { get; protected set; }
 
         internal static Texture2D WhiteTexture;
+
+        protected Color clearColour { get; set; }
         protected GraphicsDevice graphicsDevice;
+        protected List<AbstractSystem> systems = new List<AbstractSystem>();
 
         private IList<Entity> entities = new List<Entity>();
 
         public AbstractScene(GraphicsDevice graphicsDevice)
         {
+            this.systems.Add(new MoveToArrowKeysSystem());
+            this.systems.Add(new AabbCollisionSystem());
+            this.systems.Add(new DrawableSystem());
+            
             this.graphicsDevice = graphicsDevice;
-            WhiteTexture = new Texture2D(this.graphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            WhiteTexture.SetData<Color>(new Color[] { Color.White });
+
+            if (WhiteTexture == null)
+            {
+                WhiteTexture = new Texture2D(this.graphicsDevice, 1, 1, false, SurfaceFormat.Color);
+                WhiteTexture.SetData<Color>(new Color[] { Color.White });
+            }
         }
 
-        public Entity Add(Entity e)
+        public Entity add(Entity e)
         {
             this.entities.Add(e);
             return e;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        internal void Draw(SpriteBatch spriteBatch)
         {
-            graphicsDevice.Clear(this.ClearColour);
+            graphicsDevice.Clear(this.clearColour);
             spriteBatch.Begin();
 
             foreach (var entity in this.entities)
@@ -47,19 +57,11 @@ namespace DeenGames.InfiniteArpg.Scenes
             spriteBatch.End();
         }
 
-        public void Update(GameTime gameTime)
+        internal void Update(GameTime gameTime)
         {
             foreach (var entity in this.entities)
             {
                 entity.Update(gameTime);
-            }
-        }
-
-        protected Texture2D LoadImage(string fileName)
-        {
-            using (var stream = File.Open(fileName, FileMode.Open))
-            {
-                return Texture2D.FromStream(this.graphicsDevice, stream);
             }
         }
 

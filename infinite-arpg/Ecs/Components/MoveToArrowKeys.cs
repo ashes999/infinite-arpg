@@ -16,7 +16,7 @@ namespace DeenGames.InfiniteArpg
         {
             if (!parent.Has<Drawable>())
             {
-                parent.Colour(Color.White, 32, 32);
+                parent.colour(Color.White, 32, 32);
             }
         }
 

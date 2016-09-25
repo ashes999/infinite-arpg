@@ -83,6 +83,10 @@
     <Compile Include="Ecs\Entity.cs" />
     <Compile Include="Ecs\Components\Component.cs" />
     <Compile Include="Ecs\Components\MoveToArrowKeys.cs" />
+    <Compile Include="Ecs\Systems\DrawableSystem.cs" />
+    <Compile Include="Ecs\Systems\MoveToArrowKeysSystem.cs" />
+    <Compile Include="Ecs\Systems\AabbCollisionSystem.cs" />
+    <Compile Include="Ecs\Systems\AbstractSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
@@ -113,5 +117,6 @@
     <Folder Include="Content\Scripts\" />
     <Folder Include="Ecs\" />
     <Folder Include="Ecs\Components\" />
+    <Folder Include="Ecs\Systems\" />
   </ItemGroup>
 </Project>

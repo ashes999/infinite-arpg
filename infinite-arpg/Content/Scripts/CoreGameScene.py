@@ -10,14 +10,14 @@ class CoreGameScene(AbstractScene):
 
     def __init__(self, graphicsDevice):
         super(CoreGameScene, self).__init__()
-        self.ClearColour = Color.DarkGreen
-        self.player = self.Add(Entity("player").Colour(Color.Red, 32, 32).Move(300, 200))
-        self.player.MoveToArrowKeys(200)
-        self.makeWalls()
+        self.clearColour = Color.DarkGreen
+        self.player = self.add(Entity("player").colour(Color.Red, 32, 32).move(300, 200))
+        self.player.move_to_arrow_keys(200)
+        self.make_walls()
 
-    def makeWalls(self):
-        self.Add(Entity("wall").Colour(Color.Gray, self.Width, CoreGameScene.WALL_THICKNESS).Move(0, 0))
-        self.Add(Entity("wall").Colour(Color.Gray, self.Width, CoreGameScene.WALL_THICKNESS).Move(0, self.Height - CoreGameScene.WALL_THICKNESS))
-        self.Add(Entity("wall").Colour(Color.Gray, CoreGameScene.WALL_THICKNESS, self.Height).Move(0, 0))
-        self.Add(Entity("wall").Colour(Color.Gray, CoreGameScene.WALL_THICKNESS, self.Height).Move(self.Width - CoreGameScene.WALL_THICKNESS, 0))
+    def make_walls(self):
+        self.add(Entity("wall").colour(Color.Gray, self.Width, CoreGameScene.WALL_THICKNESS).move(0, 0))
+        self.add(Entity("wall").colour(Color.Gray, self.Width, CoreGameScene.WALL_THICKNESS).move(0, self.Height - CoreGameScene.WALL_THICKNESS))
+        self.add(Entity("wall").colour(Color.Gray, CoreGameScene.WALL_THICKNESS, self.Height).move(0, 0))
+        self.add(Entity("wall").colour(Color.Gray, CoreGameScene.WALL_THICKNESS, self.Height).move(self.Width - CoreGameScene.WALL_THICKNESS, 0))
         

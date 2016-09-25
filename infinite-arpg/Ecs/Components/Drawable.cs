@@ -46,13 +46,6 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
             return this;
         }
 
-        public Drawable Move(int x, int y)
-        {
-            this.X = x;
-            this.Y = y;
-            return this;
-        }
-
         public void Draw(SpriteBatch spriteBatch)
         {
             if (this.colour.HasValue)

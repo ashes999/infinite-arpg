@@ -13,7 +13,7 @@ namespace DeenGames.InfiniteArpg.Ecs
     public class Entity
     {
         // Map of type => component instance, eg. typeof(Drawable) => Drawable instance
-        public IDictionary<Type, dynamic> components = new Dictionary<Type, dynamic>();
+        protected IDictionary<Type, dynamic> components = new Dictionary<Type, dynamic>();
         private string[] tags = new string[0];
 
         public Entity(string tags = "")
@@ -26,19 +26,19 @@ namespace DeenGames.InfiniteArpg.Ecs
 
         #region fluent API for adding components
 
-        public Entity Image(string fileName)
+        public Entity image(string fileName)
         {
             this.components[typeof(Drawable)] = Game1.Kernel.Get<Drawable>().Image(fileName);
             return this;
         }
 
-        public Entity Colour(Color colour, int width, int height)
+        public Entity colour(Color colour, int width, int height)
         {
             this.components[typeof(Drawable)] = Game1.Kernel.Get<Drawable>().Colour(colour, width, height);
             return this;
         }
             
-        public Entity Move(int x, int y)
+        public Entity move(int x, int y)
         {
             var drawable = this.Get<Drawable>();
             if (drawable != null)
@@ -46,11 +46,12 @@ namespace DeenGames.InfiniteArpg.Ecs
                 drawable.X = x;
                 drawable.Y = y;
             }
+            // TODO: what if Drawable is null?
 
             return this;
         }
 
-        public Entity MoveToArrowKeys(int velocityPerSecond)
+        public Entity move_to_arrow_keys(int velocityPerSecond)
         {
             this.components[typeof(MoveToArrowKeys)] = new MoveToArrowKeys(this, velocityPerSecond);
             return this;
