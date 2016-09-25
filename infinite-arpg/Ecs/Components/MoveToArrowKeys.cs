@@ -14,9 +14,9 @@ namespace DeenGames.InfiniteArpg
         // If we don't have a drawable, add one
         public MoveToArrowKeys(Entity parent) : base(parent)
         {
-            if (!parent.Has<Drawable>())
+            if (!parent.has<Drawable>())
             {
-                parent.colour(Color.White, 32, 32);
+                parent.color(Color.Red, 32, 32);
             }
         }
 
@@ -27,7 +27,7 @@ namespace DeenGames.InfiniteArpg
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            var drawable = this.Parent.Get<Drawable>();
+            var drawable = this.Parent.get<Drawable>();
             if (drawable != null)
             {
                 this.SetVelocityIfKeysPressed();

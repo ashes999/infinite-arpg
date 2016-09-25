@@ -47,7 +47,7 @@ namespace DeenGames.InfiniteArpg.Scenes
 
             foreach (var entity in this.entities)
             {
-                var drawable = entity.Get<Drawable>();
+                var drawable = entity.get<Drawable>();
                 if (drawable != null)
                 {
                     drawable.Draw(spriteBatch);

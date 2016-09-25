@@ -32,7 +32,7 @@ namespace DeenGames.InfiniteArpg.Ecs
             return this;
         }
 
-        public Entity colour(Color colour, int width, int height)
+        public Entity color(Color colour, int width, int height)
         {
             this.components[typeof(Drawable)] = Game1.Kernel.Get<Drawable>().Colour(colour, width, height);
             return this;
@@ -40,7 +40,7 @@ namespace DeenGames.InfiniteArpg.Ecs
             
         public Entity move(int x, int y)
         {
-            var drawable = this.Get<Drawable>();
+            var drawable = this.get<Drawable>();
             if (drawable != null)
             {
                 drawable.X = x;
@@ -61,18 +61,18 @@ namespace DeenGames.InfiniteArpg.Ecs
 
         #region raw Get/Has/etc. methods
 
-        public T Get<T>()
+        public T get<T>()
         {
             var type = typeof(T);
             return (T)this.components[type];
         }
 
-        public bool Has<T>()
+        public bool has<T>()
         {
             return this.components[typeof(T)] != null;
         }
 
-        public bool Tagged(string tag)
+        public bool tagged(string tag)
         {
             return this.tags.Any(t => t == tag.ToUpperInvariant());
         }
@@ -91,11 +91,11 @@ namespace DeenGames.InfiniteArpg.Ecs
 
         // The exact same code, in Python, either returns a Tuple or True.
         // Instead of a Drawable instance. Pfft.
-        public void Draw(SpriteBatch spriteBatch)
+        public void draw(SpriteBatch spriteBatch)
         {
-            if (this.Has<Drawable>())
+            if (this.has<Drawable>())
             {
-                this.Get<Drawable>().Draw(spriteBatch);
+                this.get<Drawable>().Draw(spriteBatch);
             }
         }
 
