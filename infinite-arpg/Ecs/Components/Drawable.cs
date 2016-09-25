@@ -12,8 +12,8 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
         [Inject]
         public GraphicsDevice GraphicsDevice { private get; set; }
 
-        public double X { get; set; }
-        public double Y { get;set; }
+        internal double X { get; set; }
+        internal double Y { get; set; }
 
         private Color? colour = null;
         private Texture2D texture2D;
