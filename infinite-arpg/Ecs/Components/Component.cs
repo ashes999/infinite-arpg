@@ -12,8 +12,6 @@ namespace DeenGames.InfiniteArpg
         {
             this.Parent = parent;
         }
-
-        public virtual void Update(GameTime gameTime) { }
     }
 }
 

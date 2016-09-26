@@ -7,6 +7,7 @@ using DeenGames.InfiniteArpg.Ecs.Components;
 using Ninject;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Ninject.Parameters;
 
 namespace DeenGames.InfiniteArpg.Ecs
 {
@@ -28,13 +29,21 @@ namespace DeenGames.InfiniteArpg.Ecs
 
         public Entity image(string fileName)
         {
-            this.components[typeof(Drawable)] = Game1.Kernel.Get<Drawable>().Image(fileName);
+            this.add(Game1.Kernel.Get<Drawable>(
+                new ConstructorArgument("parent", Game1.Kernel), 
+                new ConstructorArgument("fileName", fileName)));
+
             return this;
         }
 
-        public Entity color(Color colour, int width, int height)
+        public Entity color(Color color, int width, int height)
         {
-            this.components[typeof(Drawable)] = Game1.Kernel.Get<Drawable>().Colour(colour, width, height);
+            this.add(Game1.Kernel.Get<Drawable>(
+                new ConstructorArgument("parent", this),
+                new ConstructorArgument("color", color),
+                new ConstructorArgument("width", width),
+                new ConstructorArgument("height", height)));
+
             return this;
         }
             
@@ -46,6 +55,7 @@ namespace DeenGames.InfiniteArpg.Ecs
                 drawable.X = x;
                 drawable.Y = y;
             }
+            
             // TODO: what if Drawable is null?
 
             return this;
@@ -53,7 +63,7 @@ namespace DeenGames.InfiniteArpg.Ecs
 
         public Entity move_to_arrow_keys(int velocityPerSecond)
         {
-            this.components[typeof(MoveToArrowKeys)] = new MoveToArrowKeys(this, velocityPerSecond);
+            this.add(new MoveToArrowKeys(this, velocityPerSecond));
             return this;
         }
 
@@ -67,6 +77,15 @@ namespace DeenGames.InfiniteArpg.Ecs
             return (T)this.components[type];
         }
 
+        // Adds a component to this entity. If this entity already has a component of that
+        // type, this overrides it with the new (parameter) component.
+        public Entity add(Component component)
+        {
+            var type = component.GetType();
+            this.components[type] = component;
+            return this;
+        }
+
         public bool has<T>()
         {
             return this.components[typeof(T)] != null;
@@ -76,29 +95,7 @@ namespace DeenGames.InfiniteArpg.Ecs
         {
             return this.tags.Any(t => t == tag.ToUpperInvariant());
         }
-
-        internal void Update(GameTime gameTime)
-        {
-            foreach (var kvp in this.components)
-            {
-                kvp.Value.Update(gameTime);
-            }
-        }
-
-        #endregion
-
-        #region TODO: refactor
-
-        // The exact same code, in Python, either returns a Tuple or True.
-        // Instead of a Drawable instance. Pfft.
-        public void draw(SpriteBatch spriteBatch)
-        {
-            if (this.has<Drawable>())
-            {
-                this.get<Drawable>().Draw(spriteBatch);
-            }
-        }
-
+        
         #endregion
     }
 }

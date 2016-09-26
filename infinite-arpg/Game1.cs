@@ -68,6 +68,7 @@ namespace DeenGames.InfiniteArpg
             // Wire up XNA dependencies so we can get them easily. Bind to instances, because
             // constructing these things is really complex.
             Kernel.Bind<GraphicsDevice>().ToConstant(this.GraphicsDevice);
+			Kernel.Bind<SpriteBatch>().ToConstant(this.spriteBatch);
 
             this.ReloadMainScene();
 		}
@@ -109,7 +110,7 @@ namespace DeenGames.InfiniteArpg
 		{
             if (this.currentScene != null)
             {
-                this.currentScene.Draw(spriteBatch);
+                this.currentScene.Draw(gameTime);
             }
 
 			base.Draw (gameTime);

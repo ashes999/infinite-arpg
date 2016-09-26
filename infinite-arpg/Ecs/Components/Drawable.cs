@@ -9,55 +9,36 @@ namespace DeenGames.InfiniteArpg.Ecs.Components
 {
     public class Drawable : Component
     {
-        [Inject]
-        public GraphicsDevice GraphicsDevice { private get; set; }
-
         internal double X { get; set; }
         internal double Y { get; set; }
 
-        private Color? colour = null;
-        private Texture2D texture2D;
-        private int width = 0;
-        private int height = 0;
+        internal Color? color = null;
+        internal Texture2D texture2D;
+        internal int width = 0;
+        internal int height = 0;
 
-        public Drawable(Entity parent) : base(parent)
+        public Drawable(Entity parent, string fileName) : base(parent)
         {
             this.X = 0;
             this.Y = 0;
-        }
 
-        public Drawable Image(string fileName)
-        {
+            var graphicsDevice = Game1.Kernel.Get<GraphicsDevice>();
+
             using (var stream = File.Open(fileName, FileMode.Open))
             {
-                this.texture2D = Texture2D.FromStream(this.GraphicsDevice, stream);
+                this.texture2D = Texture2D.FromStream(graphicsDevice, stream);
             }
-
-            return this;
         }
 
-
-        public Drawable Colour(Color colour, int width, int height)
+        public Drawable(Entity parent, Color color, int width, int height) : base(parent)
         {
-            this.colour = colour;
+            this.X = 0;
+            this.Y = 0;
+
+            this.color = color;
             this.texture2D = AbstractScene.WhiteTexture;
             this.width = width;
             this.height = height;
-            return this;
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            if (this.colour.HasValue)
-            {
-                spriteBatch.Draw(this.texture2D, null, new Rectangle((int)this.X, (int)this.Y, this.width, this.height),
-                    null, null, 0, Vector2.One, this.colour);
-            }
-            else
-            {
-                // TODO: cache (or something) the vector
-                spriteBatch.Draw(this.texture2D, new Vector2((int)this.X, (int)this.Y));
-            }
         }
     }
 }

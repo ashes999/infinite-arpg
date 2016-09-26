@@ -83,10 +83,10 @@
     <Compile Include="Ecs\Entity.cs" />
     <Compile Include="Ecs\Components\Component.cs" />
     <Compile Include="Ecs\Components\MoveToArrowKeys.cs" />
-    <Compile Include="Ecs\Systems\DrawableSystem.cs" />
     <Compile Include="Ecs\Systems\MoveToArrowKeysSystem.cs" />
     <Compile Include="Ecs\Systems\AabbCollisionSystem.cs" />
     <Compile Include="Ecs\Systems\AbstractSystem.cs" />
+    <Compile Include="Ecs\Systems\DrawingSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />

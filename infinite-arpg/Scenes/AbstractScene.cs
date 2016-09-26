@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using DeenGames.InfiniteArpg.Ecs;
 using System.Collections.Generic;
 using DeenGames.InfiniteArpg.Ecs.Components;
+using Ninject;
 
 namespace DeenGames.InfiniteArpg.Scenes
 {
@@ -16,14 +17,16 @@ namespace DeenGames.InfiniteArpg.Scenes
         protected Color clearColour { get; set; }
         protected GraphicsDevice graphicsDevice;
         protected List<AbstractSystem> systems = new List<AbstractSystem>();
+        private DrawingSystem drawingSystem;
+
+        protected int width { get { return Game1.ScreenWidth; } }
+        protected int height { get { return Game1.ScreenHeight; } }
 
         private IList<Entity> entities = new List<Entity>();
 
         public AbstractScene(GraphicsDevice graphicsDevice)
         {
-            this.systems.Add(new MoveToArrowKeysSystem());
-            this.systems.Add(new AabbCollisionSystem());
-            this.systems.Add(new DrawableSystem());
+            this.AddDefaultSystems();
             
             this.graphicsDevice = graphicsDevice;
 
@@ -40,33 +43,25 @@ namespace DeenGames.InfiniteArpg.Scenes
             return e;
         }
 
-        internal void Draw(SpriteBatch spriteBatch)
+        internal void Draw(GameTime gameTime)
         {
-            graphicsDevice.Clear(this.clearColour);
-            spriteBatch.Begin();
-
-            foreach (var entity in this.entities)
-            {
-                var drawable = entity.get<Drawable>();
-                if (drawable != null)
-                {
-                    drawable.Draw(spriteBatch);
-                }
-            }
-
-            spriteBatch.End();
+            this.drawingSystem.Draw(gameTime, this.clearColour);
         }
 
         internal void Update(GameTime gameTime)
         {
-            foreach (var entity in this.entities)
+            foreach (var system in this.systems)
             {
-                entity.Update(gameTime);
+                system.Update(gameTime);
             }
         }
 
-        protected int width { get { return Game1.ScreenWidth; } }
-        protected int height { get { return Game1.ScreenHeight; } }
+        private void AddDefaultSystems()
+        {
+            this.drawingSystem = Game1.Kernel.Get<DrawingSystem>();
+            this.systems.Add(Game1.Kernel.Get<MoveToArrowKeysSystem>());
+            this.systems.Add(Game1.Kernel.Get<AabbCollisionSystem>());            
+        }
     }
 }
 
