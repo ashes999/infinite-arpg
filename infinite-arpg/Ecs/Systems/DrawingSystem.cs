@@ -7,8 +7,8 @@ namespace DeenGames.InfiniteArpg
 {
     public class DrawingSystem : AbstractSystem
     {
-        private SpriteBatch spriteBatch;
-        private GraphicsDevice graphicsDevice;
+        private readonly SpriteBatch spriteBatch;
+        private readonly GraphicsDevice graphicsDevice;
         
         public DrawingSystem(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice) : base(typeof(Drawable))
         {

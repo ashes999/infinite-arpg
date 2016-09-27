@@ -13,16 +13,6 @@ namespace DeenGames.InfiniteArpg
         {
         }
 
-        public override void Add(Entity entity)
-        {
-            base.Add(entity);
-
-            if (!entity.has<Drawable>())
-            {
-                entity.color(Color.Red, 32, 32);
-            }
-        }
-
         public override void Update(GameTime gameTime)
         {
             foreach (var entity in entities)
